@@ -1,4 +1,5 @@
 import About from "../models/about";
+import AboutSchema from "../validates/about";
 export const getAllAbout = async (req, res) => {
     try {
         const about = await About.find()
@@ -20,6 +21,13 @@ export const getAllAbout = async (req, res) => {
 
 export const createAbout = async function (req, res) {
     try {
+        const { error } = AboutSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(404).json({
+                message: errors,
+            });
+        }
         const about = await About.create(req.body);
         if (!about) {
             return res.status(404).json({
@@ -39,6 +47,13 @@ export const createAbout = async function (req, res) {
 
 export const updateAbout = async function (req, res) {
     try {
+        const { error } = AboutSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(404).json({
+                message: errors,
+            });
+        }
         const about = await About.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!about) {
             return res.status(404).json({

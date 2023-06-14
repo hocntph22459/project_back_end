@@ -1,6 +1,7 @@
 import Bill from "../models/bill";
 import dotenv from 'dotenv'
 import nodemailer from "nodemailer"
+import BillSchema from "../validates/bill";
 
 dotenv.config()
 const { MAIL_USERNAME } = process.env
@@ -62,6 +63,13 @@ export const getBillByUser = async function (req, res) {
 };
 export const createBill = async function (req, res) {
     try {
+        const { error } = BillSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(404).json({
+                message: errors,
+            });
+        }
         const bill = await Bill.create(req.body);
         if (!bill) {
             return res.status(404).json({
@@ -102,6 +110,13 @@ export const createBill = async function (req, res) {
 };
 export const updateBill = async function (req, res) {
     try {
+        const { error } = BillSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(404).json({
+                message: errors,
+            });
+        }
         const bill = await Bill.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!bill) {
             return res.status(404).json({

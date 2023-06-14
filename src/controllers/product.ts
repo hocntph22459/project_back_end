@@ -2,7 +2,7 @@ import Category from "../models/category";
 import productSchema from "../validates/product";
 import HashTag from "../models/hashtag";
 import Product from "../models/product";
-
+//search product by name
 export const SearchProductByName = async (req, res) => {
     const searchTerm: string = req.query.name;
     try {
@@ -22,6 +22,7 @@ export const SearchProductByName = async (req, res) => {
         });
     }
 };
+// filter products price
 export const FilterProductByPrice = async (req, res) => {
     const { minPrice, maxPrice } = req.query;
     try {
@@ -43,53 +44,53 @@ export const FilterProductByPrice = async (req, res) => {
         });
     }
 };
-
-export const FilterProductBySalePrice  = async (req, res) => {
+// filter products on sale price
+export const FilterProductBySalePrice = async (req, res) => {
     try {
-      const saleProducts = await Product.find({
-        $expr: {
-          $gt: [
-            { $divide: [{ $subtract: ['$price', '$salePrice'] }, '$price'] },
-            0.2
-          ]
-        }
-      });
-      if (saleProducts.length === 0) {
-        return res.status(404).json({
-            message: 'Không có sản phẩm đang sale',
+        const saleProducts = await Product.find({
+            $expr: {
+                $gt: [
+                    { $divide: [{ $subtract: ['$price', '$salePrice'] }, '$price'] },
+                    0.2
+                ]
+            }
         });
-    }
-    return res.status(200).json({
-        message: 'thành công',
-        data: saleProducts,
-    });
+        if (saleProducts.length === 0) {
+            return res.status(404).json({
+                message: 'Không có sản phẩm đang sale',
+            });
+        }
+        return res.status(200).json({
+            message: 'thành công',
+            data: saleProducts,
+        });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
-  };
-
+};
+// filter products by categories
 export const FilterProductByCategory = async (req, res) => {
     const { CategoryId } = req.query
     try {
-      const products = await Product.find({
-        CategoryId: CategoryId // sử dụng CategoryId trong câu truy vấn
-      });
-      if (products.length === 0) {
-        return res.status(404).json({
-          message: 'Không có sản phẩm bạn muốn tìm',
+        const products = await Product.find({
+            CategoryId: CategoryId
         });
-      }
-      return res.status(200).json({
-        message: 'thành công',
-        data: products,
-      });
+        if (products.length === 0) {
+            return res.status(404).json({
+                message: 'Không có sản phẩm bạn muốn tìm',
+            });
+        }
+        return res.status(200).json({
+            message: 'thành công',
+            data: products,
+        });
     } catch (error) {
-      return res.status(500).json({
-        message: error.message,
-      });
+        return res.status(500).json({
+            message: error.message,
+        });
     }
-  };
-  
+};
+
 export const GetallProduct = async (req, res) => {
     try {
         const product = await Product.find().populate("tags").populate("CategoryId")

@@ -1,5 +1,5 @@
 import joi from "joi";
-const postSchema = joi.object({
+const ProductSchema = joi.object({
     name: joi.string().required().messages({
         "string.empty": 'Trường tên không được để trống',
         "any.required": 'Trường tên là bắt buộc',
@@ -26,4 +26,4 @@ const postSchema = joi.object({
     })
 });
 
-export default postSchema
+export default ProductSchema
