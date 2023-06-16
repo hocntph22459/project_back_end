@@ -11,7 +11,7 @@ const ProductModel = new mongoose.Schema({
         type: Number,
         require: true
     },
-    salePrice:{
+    salePrice: {
         type: Number
     },
     images: [
@@ -24,17 +24,16 @@ const ProductModel = new mongoose.Schema({
         type: String,
         require: true
     },
-    size: [
-        {
+    sizes: [{
+        size: {
+            type: Number,
+            required: true
+        },
+        quantity: {
             type: Number,
             required: true
         }
-    ],
-    quantity: {
-        type: Number,
-        required: true,
-        default: 5
-    },
+    }],
     views: {
         type: Number,
         default: 0

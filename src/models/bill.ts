@@ -40,7 +40,13 @@ const BillModel = new mongoose.Schema({
     status: {
         type: String,
         default: 'đang chờ duyệt'
-    }
+    },
+    orderCode: {
+        type: String,
+        unique: true,
+        required: true,
+        default: Math.random().toString(36).substring(2, 8).toUpperCase(),
+    },
 }, {
     timestamps: true,
     versionKey: false,

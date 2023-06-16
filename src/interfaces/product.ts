@@ -4,7 +4,7 @@ export interface IProduct {
   price: number;
   images: string[];
   description: string;
-  size: number[];
+  sizes: Sizes[];
   quantity: number;
   views: number;
   tags: Tag[];
@@ -22,7 +22,10 @@ interface Tag {
   updatedAt: string;
 }
 
-
+interface Sizes{
+  size: number;
+  quantity: number;
+}
 interface Category {
   _id: string;
   name: string;

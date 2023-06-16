@@ -2,7 +2,7 @@ import Bill from "../models/bill";
 import dotenv from 'dotenv'
 import nodemailer from "nodemailer"
 import BillSchema from "../validates/bill";
-
+import Product from "../models/product"
 dotenv.config()
 const { MAIL_USERNAME } = process.env
 const { MAIL_PASSWORD } = process.env
@@ -70,15 +70,40 @@ export const createBill = async function (req, res) {
                 message: errors,
             });
         }
-        const bill = await Bill.create(req.body);
-        if (!bill) {
-            return res.status(404).json({
-                message: "Không thể tạo đơn hàng",
-            });
+
+        for (const item of req.body.items) {
+            const product: any = await Product.findById(item._id);
+
+            let sizeFound = false;
+            for (const size of product.sizes) {
+                if (size.size === item.size) {
+                    sizeFound = true;
+                    if (size.quantity < item.quantity) {
+                        return res.status(404).json({
+                            message: "Sản phẩm không đủ số lượng để bán",
+                        });
+                    }
+                    size.quantity -= item.quantity;
+                    if (size.quantity === 0) {
+                        product.sizes = product.sizes.filter((s) => s.size !== size.size);
+                    }
+                    break;
+                }
+            }
+            if (!sizeFound) {
+                return res.status(404).json({
+                    message: "Sản phẩm không có size này để bán",
+                });
+            }
+
+            product.quantity -= item.quantity;
+            await product.save();
         }
-        // Gửi email cảm ơn khi khách hàng mua hàng thành công
+
+        const bill = await Bill.create(req.body);
+
         const transporter = nodemailer.createTransport({
-            service: 'Gmail',
+            service: "Gmail",
             auth: {
                 user: MAIL_USERNAME,
                 pass: MAIL_PASSWORD,
@@ -87,14 +112,14 @@ export const createBill = async function (req, res) {
         const mailOptions = {
             from: MAIL_FROM_ADDRESS,
             to: req.body.email,
-            subject: 'Cảm ơn bạn đã mua hàng',
+            subject: "Cảm ơn bạn đã mua hàng",
             html: `
-                <p>Xin chào ${req.body.name},</p>
-                <p>Cảm ơn bạn đã mua hàng tại cửa hàng của chúng tôi. Đơn hàng của bạn đã được xác nhận và sẽ được vận chuyển trong thời gian sớm nhất.</p>
-                <p>Cảm ơn bạn đã tin tưởng và mua sắm tại cửa hàng của chúng tôi.</p>
-                <p>Trân trọng,</p>
-                <p>Đội ngũ của chúng tôi</p>
-            `,
+            <p>Xin chào ${req.body.name},</p>
+            <p>Cảm ơn bạn đã mua hàng tại cửa hàng của chúng tôi. Đơn hàng của bạn đã được xác nhận và sẽ được vận chuyển trong thời gian sớm nhất.</p>
+            <p>Cảm ơn bạn đã tin tưởng và mua sắm tại cửa hàng của chúng tôi.</p>
+            <p>Trân trọng,</p>
+            <p>Đội ngũ của chúng tôi</p>
+          `,
         };
         await transporter.sendMail(mailOptions);
 

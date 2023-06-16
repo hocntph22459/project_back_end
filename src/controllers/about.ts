@@ -19,6 +19,26 @@ export const getAllAbout = async (req, res) => {
     }
 };
 
+
+export const getOneAbout = async function (req, res) {
+    try {
+        const about = await About.findById(req.params.id);
+        if (!about) {
+            return res.status(404).json({
+                message: "không tìm thấy thông tin",
+            });
+        }
+        return res.status(200).json({
+            message: "thành công",
+            data: about,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
+        });
+    }
+};
+
 export const createAbout = async function (req, res) {
     try {
         const { error } = AboutSchema.validate(req.body, { abortEarly: false });
