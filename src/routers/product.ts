@@ -1,10 +1,11 @@
 import express from "express";
 import { checkPermission } from "../middlewares/CheckPermission";
-import { CreateProduct, SearchProductByName, GetallProduct, RemoveProduct, UpdateProduct, getOneProduct, FilterProductByPrice, FilterProductByCategory, FilterProductBySalePrice } from "../controllers/product";
+import { CreateProduct, SearchProductByName, GetallProduct, RemoveProduct, UpdateProduct, getOneProduct, FilterProductByPrice, FilterProductByCategory, FilterProductBySalePrice, FilterProductBySize } from "../controllers/product";
 const RouterProduct = express.Router();
 
 RouterProduct.get("/search", SearchProductByName);
 RouterProduct.get("/filter/price", FilterProductByPrice);
+RouterProduct.get("/filter/size/:size", FilterProductBySize);
 RouterProduct.get("/filter", FilterProductByCategory);
 RouterProduct.get("/sale", FilterProductBySalePrice);
 RouterProduct.get("/", GetallProduct);

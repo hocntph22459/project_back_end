@@ -71,9 +71,8 @@ export const createBill = async function (req, res) {
             });
         }
 
-        for (const item of req.body.items) {
+        const orderedItems = req.body.items.map(async (item) => {
             const product: any = await Product.findById(item._id);
-
             let sizeFound = false;
             for (const size of product.sizes) {
                 if (size.size === item.size) {
@@ -95,12 +94,32 @@ export const createBill = async function (req, res) {
                     message: "Sản phẩm không có size này để bán",
                 });
             }
-
             product.quantity -= item.quantity;
             await product.save();
+            return {
+                name: product.name,
+                size: item.size,
+                quantity: item.quantity,
+                price: item.price,
+                image: item.image
+            };
+        });
+
+        const items = await Promise.all(orderedItems);
+        const validItems = items.filter((item) => item !== null);
+
+        if (validItems.length === 0) {
+            return res.status(404).json({
+                message: "Không đủ số lượng sản phẩm để bán",
+            });
         }
 
-        const bill = await Bill.create(req.body);
+        const billData = {
+            ...req.body,
+            items: validItems,
+        };
+
+        const bill = await Bill.create(billData);
 
         const transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -114,12 +133,30 @@ export const createBill = async function (req, res) {
             to: req.body.email,
             subject: "Cảm ơn bạn đã mua hàng",
             html: `
-            <p>Xin chào ${req.body.name},</p>
-            <p>Cảm ơn bạn đã mua hàng tại cửa hàng của chúng tôi. Đơn hàng của bạn đã được xác nhận và sẽ được vận chuyển trong thời gian sớm nhất.</p>
+            <div style="background-color: #f5f5f5; padding: 20px;">
+                <div style="background-color: #ffffff; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+                <h1 style="text-align: center; margin-bottom: 0;">Cảm ơn bạn đã mua hàng</h1>
+                <hr style="border: none; border-top: 1px solid #eeeeee; margin: 20px 0;">
+                <p>Xin chào <strong>${req.body.name}</strong>,</p>
+                <p>Cảm ơn bạn đã mua hàng tại cửa hàng của chúng tôi. Đơn hàng của bạn đã được xác nhận và sẽ được vận chuyển trong thời gian sớm nhất.</p>
+                <p>Thông tin đơn hàng:</p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    ${validItems.map((item) => `
+                    <li style="margin-bottom: 20px; padding: 20px; background-color: #f9f9f9; border-radius: 10px;">
+                        <img src="${item.image}" alt="" style="max-width: 100%; height: auto;"/>
+                        <h3 style="margin-top: 0;">${item.name}</h3>
+                        <p style="margin-bottom: 5px;">Size: ${item.size}</p>
+                        <p style="margin-bottom: 5px;">Số lượng: ${item.quantity}</p>
+                        <p style="margin-bottom: 0;">Đơn giá: ${item.price}</p>
+                    </li>
+                `).join('')}
+            </ul>
             <p>Cảm ơn bạn đã tin tưởng và mua sắm tại cửa hàng của chúng tôi.</p>
             <p>Trân trọng,</p>
             <p>Đội ngũ của chúng tôi</p>
-          `,
+        </div>
+    </div>
+`,
         };
         await transporter.sendMail(mailOptions);
 

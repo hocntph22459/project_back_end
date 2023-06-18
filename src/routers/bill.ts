@@ -4,8 +4,8 @@ import { createBill, getAllBill, getBillByUser, getOneBill, removeBill, updateBi
 const RouterBill = express.Router();
 
 RouterBill.get("/", getAllBill);
-RouterBill.get("/", getOneBill);
-RouterBill.get("/:User_id", getBillByUser);
+RouterBill.get("/:id", getOneBill);
+RouterBill.get("/order/:User_id", getBillByUser);
 RouterBill.post("/", createBill);
 RouterBill.put("/:id", checkPermission, updateBill);
 RouterBill.delete("/:id", checkPermission, removeBill);

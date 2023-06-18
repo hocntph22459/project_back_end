@@ -19,15 +19,28 @@ const BillModel = new mongoose.Schema({
         type: String,
         required: true
     },
-    items: [
-        {
-            image: { type: String, required: true },
-            name: { type: String, required: true },
-            price: { type: Number, required: true },
-            size: { type: Number, required: true },
-            quantity: { type: Number, required: true },
+    items: [{
+        name: {
+            type: String,
+            required: true,
         },
-    ],
+        price: {
+            type: Number,
+            required: true,
+        },
+        size: {
+            type: String,
+            required: true,
+        },
+        quantity: {
+            type: Number,
+            required: true,
+        },
+        image: {
+            type: String,
+            required: true,
+        },
+    }],
     total: {
         type: Number,
         required: true
@@ -45,7 +58,7 @@ const BillModel = new mongoose.Schema({
         type: String,
         unique: true,
         required: true,
-        default: Math.random().toString(36).substring(2, 8).toUpperCase(),
+        default: Math.random().toString(35).substring(4, 8).toUpperCase(),
     },
 }, {
     timestamps: true,
