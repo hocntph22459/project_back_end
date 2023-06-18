@@ -2,9 +2,10 @@ import Category from "../models/category";
 import productSchema from "../validates/product";
 import HashTag from "../models/hashtag";
 import Product from "../models/product";
+
 //search product by name
 export const SearchProductByName = async (req, res) => {
-    const searchTerm: string = req.query.name;
+    const searchTerm = req.query.name;
     try {
         const product = await Product.find({ name: { $regex: searchTerm, $options: 'i' } })
         if (product.length === 0) {
@@ -35,9 +36,9 @@ export const FilterProductByPrice = async (req, res) => {
             });
         }
         if (sortType === "desc") {
-            products.sort((a: any, b: any) => b.price - a.price);
+            products.sort((a, b) => b.price - a.price);
         } else {
-            products.sort((a: any, b: any) => a.price - b.price);
+            products.sort((a, b) => a.price - b.price);
         }
         return res.status(200).json({
             message: 'thành công',
@@ -135,7 +136,7 @@ export const GetallProduct = async (req, res) => {
 export const getOneProduct = async function (req, res) {
     const productId = req.params.productId; // Lấy id của bài đăng
     try {
-        const product: any = await Product.findById(req.params.id).populate("tags").populate("CategoryId")
+        const product = await Product.findById(req.params.id).populate("tags").populate("CategoryId")
         if (!product) {
             return res.status(404).json({
                 message: "Không tìm thấy sản phẩm",

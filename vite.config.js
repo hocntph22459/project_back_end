@@ -3,7 +3,7 @@ import { VitePluginNode } from 'vite-plugin-node';
 import dotenv from "dotenv"
 dotenv.config()
 
-const {PORT}:any = process.env
+const {PORT} = process.env
 export default defineConfig({
   server: {
     port: PORT || 8081
@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [ 
     ...VitePluginNode({
       adapter: 'express',
-      appPath: './src/app.ts',
+      appPath: './src/app.js',
       exportName: 'viteNodeApp',
       tsCompiler: 'esbuild',
       swcOptions: {}

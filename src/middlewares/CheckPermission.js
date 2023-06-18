@@ -27,7 +27,7 @@ export const checkPermission = async (req, res, next) => {
         }
       }
       // lấy thông tin user từ database
-      const user: any = await User.findById(payload._id);
+      const user = await User.findById(payload._id);
       // kiểm tra xem user có đủ quyền để thực hiện hành động đó không
       if (user.role != "admin") {
         return res.json({

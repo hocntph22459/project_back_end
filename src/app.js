@@ -1,7 +1,7 @@
 import express from "express";
 import Router from "./routers";
 import cors from "cors"
-import Connectdb from "./connect/connectdb";
+import Connectdb from "./config/ConnectDB";
 // config
 const app = express();
 

@@ -34,7 +34,7 @@ export const Signup = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const user: any = await User.create({
+        const user = await User.create({
             name,
             email,
             password: hashedPassword,
@@ -91,7 +91,7 @@ export const Signin = async (req, res) => {
             });
         }
 
-        const user: any = await User.findOne({ email });
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({
                 message: "Tài khoản không tồn tại",
@@ -233,7 +233,7 @@ export const forgotPassword = async (req, res) => {
         // Tạo liên kết xác thực
         // Tạo một password ngẫu nhiên có độ dài là 8 ký tự
         const passwordNew = crypto.randomBytes(4).toString('hex')
-        const user: any = await User.findOne({ email });
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({
                 message: "Tài khoản của bạn không tồn tại",

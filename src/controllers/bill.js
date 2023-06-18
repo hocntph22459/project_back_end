@@ -72,7 +72,7 @@ export const createBill = async function (req, res) {
         }
 
         const orderedItems = req.body.items.map(async (item) => {
-            const product: any = await Product.findById(item._id);
+            const product = await Product.findById(item._id);
             let sizeFound = false;
             for (const size of product.sizes) {
                 if (size.size === item.size) {
