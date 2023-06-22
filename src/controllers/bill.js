@@ -195,13 +195,23 @@ export const updateBill = async function (req, res) {
         });
     }
 };
+
 export const removeBill = async function (req, res) {
     try {
-        const bill = await Bill.findByIdAndDelete(req.params.id);
-        return res.status(200).json({
-            message: "Xóa đơn hàng thành công",
-            bill,
+        const bill = await Bill.findOneAndDelete({
+            _id: req.params.id,
+            status: 'đang chờ duyệt',
         });
+        if (bill) {
+            return res.status(200).json({
+                message: "hủy đơn hàng thành công",
+                bill,
+            });
+        } else {
+            return res.status(404).json({
+                message: "Không tìm thấy đơn hàng hoặc đơn hàng đã được duyệt",
+            });
+        }
     } catch (error) {
         return res.status(500).json({
             message: error.message,

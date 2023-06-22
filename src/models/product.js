@@ -12,7 +12,7 @@ const ProductModel = new mongoose.Schema({
         require: true
     },
     salePrice: {
-        type: Number
+        type: Number,
     },
     images: [
         {
