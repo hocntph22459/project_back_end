@@ -1,9 +1,9 @@
-import User from "../models/user";
+import User from "../models/user.js";
+import { signinSchema, signupSchema } from "../validates/auth.js";
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer"
-import { signinSchema, signupSchema } from "../validates/auth";
-import crypto from "crypto";
 import dotenv from 'dotenv'
 dotenv.config()
 const { MAIL_USERNAME } = process.env

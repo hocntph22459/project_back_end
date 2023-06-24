@@ -1,7 +1,7 @@
-import Category from "../models/category";
-import productSchema from "../validates/product";
-import HashTag from "../models/hashtag";
-import Product from "../models/product";
+import Category from "../models/category.js";
+import productSchema from "../validates/product.js";
+import HashTag from "../models/hashtag.js";
+import Product from "../models/product.js";
 
 //search product by name
 export const SearchProductByName = async (req, res) => {

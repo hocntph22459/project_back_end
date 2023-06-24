@@ -12,10 +12,6 @@ const ProductSchema = joi.object({
         "string.empty": 'Trường price không được để trống',
         "any.required": 'Trường price là bắt buộc',
     }),
-    salePrice: joi.number().required().messages({
-        "string.empty": 'Trường salePrice không được để trống',
-        "any.required": 'Trường salePrice là bắt buộc',
-    }),
     images: joi.array().items(joi.string().uri()).required().messages({
         "string.empty": 'Trường images không được để trống',
         "any.required": 'Trường images là bắt buộc',

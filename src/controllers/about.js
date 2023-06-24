@@ -1,5 +1,5 @@
-import About from "../models/about";
-import AboutSchema from "../validates/about";
+import About from "../models/about.js";
+import AboutSchema from "../validates/about.js";
 export const getAllAbout = async (req, res) => {
     try {
         const about = await About.find()

@@ -1,6 +1,6 @@
 import express from "express";
-import { checkPermission } from "../middlewares/CheckPermission";
-import { createBill, getAllBill, getBillByUser, getOneBill, removeBill, updateBill } from "../controllers/bill";
+import { checkPermission } from "../middlewares/CheckPermission.js";
+import { createBill, getAllBill, getBillByUser, getOneBill, removeBill, updateBill } from "../controllers/bill.js";
 const RouterBill = express.Router();
 
 RouterBill.get("/", getAllBill);

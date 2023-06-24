@@ -1,8 +1,8 @@
-import Bill from "../models/bill";
+import Bill from "../models/bill.js";
+import BillSchema from "../validates/bill.js";
+import Product from "../models/product.js"
 import dotenv from 'dotenv'
 import nodemailer from "nodemailer"
-import BillSchema from "../validates/bill";
-import Product from "../models/product"
 dotenv.config()
 const { MAIL_USERNAME } = process.env
 const { MAIL_PASSWORD } = process.env

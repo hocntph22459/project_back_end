@@ -1,5 +1,5 @@
-import Comment from "../models/comment";
-import Product from "../models/product";
+import Comment from "../models/comment.js";
+import Product from "../models/product.js";
 
 export const getAllComment = async (req, res) => {
     try {

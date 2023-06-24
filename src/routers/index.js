@@ -1,13 +1,13 @@
 import express from "express";
-import RouterCategory from "./category";
-import RouterComment from "./comment";
-import routerAuth from "./auth";
-import RouterContact from "./contact";
-import RouterUser from "./user";
-import RouterAbout from "./about";
-import RouterHashTag from "./hashtag"; 
-import RouterProduct from "./product";
-import RouterBill from "./bill";
+import RouterCategory from "./category.js";
+import RouterComment from "./comment.js";
+import routerAuth from "./auth.js";
+import RouterContact from "./contact.js";
+import RouterUser from "./user.js";
+import RouterAbout from "./about.js";
+import RouterHashTag from "./hashtag.js"; 
+import RouterProduct from "./product.js";
+import RouterBill from "./bill.js";
 const Router = express.Router();
 
 Router.use("/products", RouterProduct);

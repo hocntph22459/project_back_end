@@ -1,6 +1,6 @@
-import HashTag from "../models/hashtag";
-import HashTagSchema from "../validates/hashtag";
-import Product from "../models/product";
+import HashTag from "../models/hashtag.js";
+import HashTagSchema from "../validates/hashtag.js";
+import Product from "../models/product.js";
 
 export const getAllHashTag = async (req, res) => {
     try {

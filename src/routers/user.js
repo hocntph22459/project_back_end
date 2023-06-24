@@ -1,6 +1,6 @@
 import express from "express";
-import { checkPermission } from "../middlewares/CheckPermission";
-import {  getAllUser, getOneUser, removeUser, updateUser } from "../controllers/user";
+import { checkPermission } from "../middlewares/CheckPermission.js";
+import {  getAllUser, getOneUser, removeUser, updateUser } from "../controllers/user.js";
 const RouterUser = express.Router();
 
 RouterUser.get("/", getAllUser);

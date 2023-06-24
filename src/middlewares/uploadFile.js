@@ -1,6 +1,6 @@
 import multer from 'multer';
-import { storage } from '../config/cloundinary';
-import Product from '../models/product';
+import { storage } from '../config/cloundinary.js';
+import Product from '../models/product.js';
 
 
 const upload = multer({ storage: storage });

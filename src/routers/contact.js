@@ -1,6 +1,6 @@
 import express from "express";
-import { checkPermission } from "../middlewares/CheckPermission";
-import { createContact, getAllContact, getOneContact, removeContact, updateContact } from "../controllers/contact";
+import { checkPermission } from "../middlewares/CheckPermission.js";
+import { createContact, getAllContact, getOneContact, removeContact, updateContact } from "../controllers/contact.js";
 const RouterContact = express.Router();
 
 RouterContact.get("/", getAllContact);

@@ -1,6 +1,6 @@
 import express from "express";
-import { checkPermission } from "../middlewares/CheckPermission";
-import { createHashTag, getAllHashTag, getOneHashTag, removeHashTag, updateHashTag } from "../controllers/hashtag";
+import { checkPermission } from "../middlewares/CheckPermission.js";
+import { createHashTag, getAllHashTag, getOneHashTag, removeHashTag, updateHashTag } from "../controllers/hashtag.js";
 const RouterHashTag = express.Router();
 
 RouterHashTag.get("/", getAllHashTag);

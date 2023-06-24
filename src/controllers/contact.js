@@ -1,5 +1,5 @@
-import Contact from "../models/contact";
-import contactSchema from "../validates/contact";
+import Contact from "../models/contact.js";
+import contactSchema from "../validates/contact.js";
 export const getAllContact = async (req, res) => {
     try {
         const contact = await Contact.find()

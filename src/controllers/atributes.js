@@ -1,4 +1,4 @@
-import Atribute from "../models/atributes";
+import Atribute from "../models/atributes.js";
 
 export const getAllAtribute = async (req, res) => {
     try {

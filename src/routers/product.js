@@ -1,6 +1,6 @@
 import express from "express";
-import { checkPermission } from "../middlewares/CheckPermission";
-import { CreateProduct, SearchProductByName, GetallProduct, RemoveProduct, UpdateProduct, getOneProduct, FilterProductByPrice, FilterProductByCategory, FilterProductBySalePrice, FilterProductBySize } from "../controllers/product";
+import { checkPermission } from "../middlewares/CheckPermission.js";
+import { CreateProduct, SearchProductByName, GetallProduct, RemoveProduct, UpdateProduct, getOneProduct, FilterProductByPrice, FilterProductByCategory, FilterProductBySalePrice, FilterProductBySize } from "../controllers/product.js";
 const RouterProduct = express.Router();
 
 RouterProduct.get("/search", SearchProductByName);
