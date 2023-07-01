@@ -5,8 +5,8 @@ const RouterHashTag = express.Router();
 
 RouterHashTag.get("/", getAllHashTag);
 RouterHashTag.get("/:id", getOneHashTag);
-RouterHashTag.post("/", createHashTag);
-RouterHashTag.put("/:id", checkPermission, updateHashTag);
-RouterHashTag.delete("/:id", checkPermission, removeHashTag);
+RouterHashTag.post("/",checkPermission, createHashTag);
+RouterHashTag.put("/:id",checkPermission, checkPermission, updateHashTag);
+RouterHashTag.delete("/:id",checkPermission, checkPermission, removeHashTag);
 
 export default RouterHashTag; 

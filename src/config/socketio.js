@@ -13,7 +13,6 @@ export const realTimeSocketIo = (server) => {
     },
   });
 
-  try {
     // Khi một client kết nối tới server qua Socket.IO, sự kiện 'connection' sẽ được phát ra.
     io.on('connection', (socket) => {
       console.log(`Socket ${socket.id} has connected`);
@@ -63,7 +62,4 @@ export const realTimeSocketIo = (server) => {
         console.log(`Socket ${socket.id} has disconnected`);
       });
     });
-  } catch (error) {
-    console.log('connection socket io error', error);
-  }
 };

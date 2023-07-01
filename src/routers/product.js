@@ -10,8 +10,8 @@ RouterProduct.get("/filter", FilterProductByCategory);
 RouterProduct.get("/sale", FilterProductBySalePrice);
 RouterProduct.get("/", GetallProduct);
 RouterProduct.get("/:id", getOneProduct);
-RouterProduct.post("/", CreateProduct);
-RouterProduct.put("/:id", UpdateProduct);
-RouterProduct.delete("/:id", RemoveProduct);
+RouterProduct.post("/",checkPermission, CreateProduct);
+RouterProduct.put("/:id",checkPermission, UpdateProduct);
+RouterProduct.delete("/:id",checkPermission, RemoveProduct);
  
 export default RouterProduct;

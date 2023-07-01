@@ -172,13 +172,6 @@ export const createBill = async function (req, res) {
 };
 export const updateBill = async function (req, res) {
     try {
-        const { error } = BillSchema.validate(req.body, { abortEarly: false });
-        if (error) {
-            const errors = error.details.map((err) => err.message);
-            return res.status(404).json({
-                message: errors,
-            });
-        }
         const bill = await Bill.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!bill) {
             return res.status(404).json({
