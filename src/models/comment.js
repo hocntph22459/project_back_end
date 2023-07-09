@@ -7,12 +7,12 @@ const CommentModel = new mongoose.Schema({
         type: String,
         require: true
     },
-    user: {
+    User_id: {
         type: mongoose.Types.ObjectId,
         ref: "User",
         require: true 
     },
-    product: {
+    Product_id: {
         type: mongoose.Types.ObjectId,
         ref: "Product",
         require: true

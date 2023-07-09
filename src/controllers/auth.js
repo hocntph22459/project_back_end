@@ -153,32 +153,30 @@ export const Signin = async (req, res) => {
     }
 };
 
-
-
 export const refreshToken = async (req, res) => {
     try {
-      const { refreshToken } = req.body;
-      if (!refreshToken) {
-        return res.status(401).json({ message: "Missing refresh token" });
-      }
-      const decoded = jwt.verify(refreshToken, REFRESH_SECRET);
-      const user = await User.findOne({ _id: decoded._id });
-      if (!user) {
-        return res.status(401).json({ message: "Token làm mới không hợp lệ" });
-      }
-      const newAccessToken = jwt.sign({ _id: user._id }, SECRET_CODE, { expiresIn:"7d" });
-      const newRefreshToken = jwt.sign({ _id: user._id }, REFRESH_SECRET, { expiresIn: "14d" });
-      return res.status(200).json({
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-      });
+        const { refreshToken } = req.body;
+        if (!refreshToken) {
+            return res.status(401).json({ message: "Missing refresh token" });
+        }
+        const decoded = jwt.verify(refreshToken, REFRESH_SECRET);
+        const user = await User.findOne({ _id: decoded._id });
+        if (!user) {
+            return res.status(401).json({ message: "Token làm mới không hợp lệ" });
+        }
+        const newAccessToken = jwt.sign({ _id: user._id }, SECRET_CODE, { expiresIn: "7d" });
+        const newRefreshToken = jwt.sign({ _id: user._id }, REFRESH_SECRET, { expiresIn: "14d" });
+        return res.status(200).json({
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+        });
     } catch (error) {
-      if (error.name === "Token hết hạn") {
-        return res.status(401).json({ message: "Mã Token làm mới đã hết hạn, vui lòng đăng nhập lại" });
-      }
-      return res.status(401).json({ message: "token mới không hợp lệ" });
+        if (error.name === "Token hết hạn") {
+            return res.status(401).json({ message: "Mã Token làm mới đã hết hạn, vui lòng đăng nhập lại" });
+        }
+        return res.status(401).json({ message: "token mới không hợp lệ" });
     }
-  };
+};
 
 // export const verifyToken = async (req, res, next) => {
 //     const authHeader = req.headers.authorization;
