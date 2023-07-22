@@ -170,6 +170,48 @@ export const createBill = async function (req, res) {
         });
     }
 };
+
+export const getBillFollowUser = async (req, res) => {
+    try {
+        const deliveryPedding = await Bill.find({ User_id: req.query.id }).count({
+            status: "Chờ duyệt",
+        });
+        const delivering = await Bill.find({ User_id: req.query.id }).count({
+            status: "Đang giao",
+        });
+        const deliverySuccess = await Bill.find({ User_id: req.query.id }).count({
+            status: "Giao thành công",
+        });
+        const deliveryCount = await Bill.find({ User_id: req.query.id }).count();
+        const bill = await Bill.find({ User_id: req.query.id }).sort({
+            createdAt: -1,
+        });
+        if (bill.length === 0) {
+            return res.status(200).json({
+                message: "Không có đơn hàng nào",
+                deliveryPedding: 0,
+                delivering: 0,
+                deliverySuccess: 0,
+                deliveryCount: 0,
+                data: bill,
+            });
+        }
+        return res.status(200).json({
+            message: "Thành công",
+            deliveryPedding,
+            delivering,
+            deliverySuccess,
+            deliveryCount,
+            data: bill,
+        });
+    } catch (error) {
+        return res.status(200).json({
+            message: error.message,
+            data: [],
+        });
+    }
+};
+
 export const updateBill = async function (req, res) {
     try {
         const bill = await Bill.findByIdAndUpdate(req.params.id, req.body, { new: true });

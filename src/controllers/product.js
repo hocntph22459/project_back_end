@@ -70,27 +70,32 @@ export const FilterProductBySize = async (req, res) => {
 // filter products on sale price
 export const FilterProductBySalePrice = async (req, res) => {
     try {
-        const saleProducts = await Product.find({
+      const saleProducts = await Product.find({
+        $and: [
+          { salePrice: { $gt: 0 } },
+          {
             $expr: {
-                $gt: [
-                    { $divide: [{ $subtract: ['$price', '$salePrice'] }, '$price'] },
-                    0.2
-                ]
-            }
+              $gt: [
+                { $divide: [{ $subtract: ["$price", "$salePrice"] }, "$price"] },
+                0.2,
+              ],
+            },
+          },
+        ],
+      });
+      if (saleProducts.length === 0) {
+        return res.status(404).json({
+          message: "Không có sản phẩm đang sale",
         });
-        if (saleProducts.length === 0) {
-            return res.status(404).json({
-                message: 'Không có sản phẩm đang sale',
-            });
-        }
-        return res.status(200).json({
-            message: 'thành công',
-            data: saleProducts,
-        });
+      }
+      return res.status(200).json({
+        message: "thành công",
+        data: saleProducts,
+      });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
-};
+  };
 // filter products by categories
 export const FilterProductByCategory = async (req, res) => {
     const { CategoryId } = req.query
